@@ -6,6 +6,6 @@ const userValidation = require('../middleware/userValidator')
 const userLimit = require('../middleware/limiter')
 
 router.post('/signup', userValidation.userValidator, userValidation.userValidationResult, userCtrl.signup);
-router.post('/login',userLimit.limiter, userCtrl.login);
+router.post('/login', userLimit.speedLimiter, userLimit.limiter, userCtrl.login);
 
 module.exports = router;
