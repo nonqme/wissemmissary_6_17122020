@@ -2,11 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
+require('dotenv').config();
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
-mongoose.connect('mongodb+srv://nonqme:AvNOCHX1Vk94IxCS@projet6.yuqxy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true 
