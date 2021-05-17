@@ -1,6 +1,6 @@
 const {check, validationResult} = require('express-validator');
 
-exports.userValidationResult = (req, res, next) => {
+exports.formValidationResult = (req, res, next) => {
     const result = validationResult(req);
     if(!result.isEmpty()){
         const error = result.array()[0].msg;
@@ -15,3 +15,9 @@ exports.userValidator = [
     .custom(value => !/\s/.test(value)).withMessage('Les espaces ne sont pas autorisées')
     .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).withMessage('1 majuscule, 1 minuscule, 1 caractère spécial et 1 chiffre minimum')
 ];
+
+exports.userValidator = [
+    check('name')
+    .notEmpty().isLength({max: 20}).withMessage('20 caractères maximum')
+]
+
