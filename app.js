@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
+
+
+
 require('dotenv').config();
 
 const sauceRoutes = require('./routes/sauce');
@@ -18,6 +21,8 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${
   
 const app = express();
 
+app.use(helmet());
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -25,8 +30,9 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use(express.json());
-app.use(helmet());
+app.use(express.json({ limit: '10kb'}));
+
+
 
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', sauceRoutes);

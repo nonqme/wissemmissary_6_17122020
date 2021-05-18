@@ -9,15 +9,11 @@ exports.formValidationResult = (req, res, next) => {
     next();
 }
 
-exports.userValidator = [
+exports.passwordValidator = [
     check('password')
     .notEmpty().isLength({ min: 8, max: 20}).withMessage('8 caractères minimum, 20 maximum')
     .custom(value => !/\s/.test(value)).withMessage('Les espaces ne sont pas autorisées')
     .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).withMessage('1 majuscule, 1 minuscule, 1 caractère spécial et 1 chiffre minimum')
 ];
 
-exports.userValidator = [
-    check('name')
-    .notEmpty().isLength({max: 20}).withMessage('20 caractères maximum')
-]
 
