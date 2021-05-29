@@ -11,10 +11,15 @@ exports.createSauce = (req, res, next) => {
       req.file.filename
     }`,
   });
-  sauce
+  if ((sauceObject.name.length >= 3) && (regex.test(sauceObject.name) === true) && (regex.test(sauceObject.manufacturer) === true) && (regex.test(sauceObject.description) === true) && (regex.test(sauceObject.mainPepper) === true) && (regexNumber.test(sauceObject.heat) === true))  {
+    console.log('HERE WE GO')
+    sauce
     .save()
     .then(() => res.status(201).json({ message: "Sauce enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
+  } else {
+    console.log('Caractères non autorisé');
+  }
 };
 
 exports.getAllSauce = (req, res, next) => {
@@ -44,6 +49,8 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 exports.modifySauce = (req, res, next) => {
+  const regex = /^(?! )[ À-ÿ0-9A-Za-z')(-]*(?<! )$/;
+  const regexNumber = /[0-9]/;
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),
@@ -52,12 +59,14 @@ exports.modifySauce = (req, res, next) => {
         }`,
       }
     : { ...req.body };
-  Sauce.updateOne(
-    { _id: req.params.id },
-    { ...sauceObject, _id: req.params.id }
-  )
-    .then(() => res.status(200).json({ message: "Objet modifié !" }))
-    .catch((error) => res.status(400).json({ error }));
+    if ((sauceObject.name.length >= 3) && (regex.test(sauceObject.name) === true) && (regex.test(sauceObject.manufacturer) === true) && (regex.test(sauceObject.description) === true) && (regex.test(sauceObject.mainPepper) === true) && (regexNumber.test(sauceObject.heat) === true))  {
+      console.log('HERE WE GO')  
+      Sauce.updateOne( { _id: req.params.id },{ ...sauceObject, _id: req.params.id } )
+      .then(() => res.status(200).json({ message: "Objet modifié !" }))
+      .catch((error) => res.status(400).json({ error }));
+    } else {
+      console.log('Caractères non autorisé');
+    }
 };
 
 exports.deleteSauce = (req, res, next) => {

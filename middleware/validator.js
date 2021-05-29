@@ -1,4 +1,4 @@
-const {check, validationResult} = require('express-validator');
+const { check, body, validationResult } = require('express-validator');
 
 exports.formValidationResult = (req, res, next) => {
     const result = validationResult(req);
@@ -15,5 +15,4 @@ exports.passwordValidator = [
     .custom(value => !/\s/.test(value)).withMessage('Les espaces ne sont pas autorisées')
     .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).withMessage('1 majuscule, 1 minuscule, 1 caractère spécial et 1 chiffre minimum')
 ];
-
 

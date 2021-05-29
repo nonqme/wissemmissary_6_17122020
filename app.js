@@ -4,7 +4,6 @@ const path = require('path');
 const helmet = require('helmet');
 
 
-
 require('dotenv').config();
 
 const sauceRoutes = require('./routes/sauce');
@@ -31,8 +30,6 @@ app.use((req, res, next) => {
   });
 
 app.use(express.json({ limit: '10kb'}));
-
-
 
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', sauceRoutes);
