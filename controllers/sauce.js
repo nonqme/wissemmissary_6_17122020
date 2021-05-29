@@ -3,6 +3,8 @@ const fs = require("fs");
 const Sauce = require("../models/sauce");
 
 exports.createSauce = (req, res, next) => {
+  const regex = /^(?! )[ À-ÿ0-9A-Za-z')(-]*(?<! )$/;
+  const regexNumber = /[0-9]/;
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   const sauce = new Sauce({

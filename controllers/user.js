@@ -23,8 +23,8 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  const key = CryptoJS.enc.Hex.parse('test1234');
-  const iv = CryptoJS.enc.Hex.parse('test1234');
+  const key = CryptoJS.enc.Hex.parse(process.env.ENCRYPTKEY);
+  const iv = CryptoJS.enc.Hex.parse(process.env.ENCRYPTIV);
   const encryptmail = CryptoJS.AES.encrypt(req.body.email, key, {iv: iv}).toString()
   User.findOne({ email: encryptmail })
     .then(user => {
