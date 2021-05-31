@@ -21,6 +21,12 @@ exports.createSauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
   } else {
     console.log('Caractères non autorisé');
+    res.status(400).json({ message: "Caractère non autorisé" })
+    const filename = sauce.imageUrl.split("/images/")[1];
+    fs.unlink(`images/${filename}`, () => {
+      console.log('Image supprimée')
+    });
+    
   }
 };
 
@@ -62,12 +68,12 @@ exports.modifySauce = (req, res, next) => {
       }
     : { ...req.body };
     if ((sauceObject.name.length >= 3) && (regex.test(sauceObject.name) === true) && (regex.test(sauceObject.manufacturer) === true) && (regex.test(sauceObject.description) === true) && (regex.test(sauceObject.mainPepper) === true) && (regexNumber.test(sauceObject.heat) === true))  {
-      console.log('HERE WE GO')  
       Sauce.updateOne( { _id: req.params.id },{ ...sauceObject, _id: req.params.id } )
       .then(() => res.status(200).json({ message: "Objet modifié !" }))
       .catch((error) => res.status(400).json({ error }));
     } else {
       console.log('Caractères non autorisé');
+      res.status(400).json({ message: "Caractère non autorisé" })
     }
 };
 
