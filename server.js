@@ -1,6 +1,10 @@
+// Appel du module HTTP 
 const http = require('http');
+
+// Appel de l'application express
 const app = require('./app');
 
+// Renvoie un port valide
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -15,6 +19,7 @@ const normalizePort = val => {
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+// Recherche les différentes erreurs et les gère de manière appropriée. Elles sont ensuite enregistrées dans le serveur 
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -35,9 +40,11 @@ const errorHandler = error => {
   }
 };
 
+// Créer un serveur avec express qui utilise app
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
+//un écouteur d'évènements consignant le port ou le canal nommé sur lequel le serveur s'exécute dans la console.
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;

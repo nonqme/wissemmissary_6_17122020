@@ -1,7 +1,10 @@
+// Appel de FS
 const fs = require("fs");
 
+// Importation du model sauce
 const Sauce = require("../models/sauce");
 
+// Création de la route createSauce
 exports.createSauce = (req, res, next) => {
   const regex = /^(?! )[ À-ÿ0-9A-Za-z')(-]*(?<! )$/;
   const regexNumber = /[0-9]/;
@@ -14,13 +17,11 @@ exports.createSauce = (req, res, next) => {
     }`,
   });
   if ((sauceObject.name.length >= 3) && (regex.test(sauceObject.name) === true) && (regex.test(sauceObject.manufacturer) === true) && (regex.test(sauceObject.description) === true) && (regex.test(sauceObject.mainPepper) === true) && (regexNumber.test(sauceObject.heat) === true))  {
-    console.log('HERE WE GO')
     sauce
     .save()
     .then(() => res.status(201).json({ message: "Sauce enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
   } else {
-    console.log('Caractères non autorisé');
     res.status(400).json({ message: "Caractère non autorisé" })
     const filename = sauce.imageUrl.split("/images/")[1];
     fs.unlink(`images/${filename}`, () => {
@@ -30,6 +31,7 @@ exports.createSauce = (req, res, next) => {
   }
 };
 
+// Création de la route getAllSauce
 exports.getAllSauce = (req, res, next) => {
   Sauce.find()
     .then((sauces) => {
@@ -42,6 +44,7 @@ exports.getAllSauce = (req, res, next) => {
     });
 };
 
+// Création de la route getOneSauce
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id,
@@ -56,6 +59,7 @@ exports.getOneSauce = (req, res, next) => {
     });
 };
 
+// Création de la route modifySauce
 exports.modifySauce = (req, res, next) => {
   const regex = /^(?! )[ À-ÿ0-9A-Za-z')(-]*(?<! )$/;
   const regexNumber = /[0-9]/;
@@ -77,6 +81,7 @@ exports.modifySauce = (req, res, next) => {
     }
 };
 
+// Création de la route deleteSauce
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
@@ -90,6 +95,7 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+// Création de la route feedbackSauce
 exports.feedbackSauce = (req, res, next) => {
   if (req.body.like === 1) {
     Sauce.updateOne(

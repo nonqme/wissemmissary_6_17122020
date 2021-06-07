@@ -1,11 +1,14 @@
+// Appel de multer
 const multer = require('multer');
 
+// Configuration des formats de fichiers autorisés
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
   'image/png': 'png'
 };
 
+// Création du middleware Multer
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'images');

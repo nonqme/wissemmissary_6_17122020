@@ -1,10 +1,19 @@
+// Appel de bcrypt
 const bcrypt = require('bcrypt');
+
+// Appel de jsonwebtoken
 const jwt = require('jsonwebtoken');
+
+// Appel de Cryptojs
 const CryptoJS = require("crypto-js");
+
+// Appel de dotenv
 require('dotenv').config();
 
+// Importation du model user
 const User = require('../models/user');
 
+// Création de la route signup
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, parseInt(process.env.SALT))
     .then(hash => {
@@ -22,6 +31,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+// Création de la route login
 exports.login = (req, res, next) => {
   const key = CryptoJS.enc.Hex.parse(process.env.ENCRYPTKEY);
   const iv = CryptoJS.enc.Hex.parse(process.env.ENCRYPTIV);

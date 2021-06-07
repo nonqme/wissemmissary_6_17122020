@@ -1,5 +1,7 @@
-const { check, body, validationResult } = require('express-validator');
+// Appel d'express validator avec les options check et validationResult
+const { check, validationResult } = require('express-validator');
 
+// Création du middleware qui gère les erreurs
 exports.formValidationResult = (req, res, next) => {
     const result = validationResult(req);
     if(!result.isEmpty()){
@@ -9,6 +11,7 @@ exports.formValidationResult = (req, res, next) => {
     next();
 }
 
+// Création du middleware de validation du password
 exports.passwordValidator = [
     check('password')
     .notEmpty().isLength({ min: 8, max: 20}).withMessage('8 caractères minimum, 20 maximum')
