@@ -72,7 +72,14 @@ exports.modifySauce = (req, res, next) => {
       }
     : { ...req.body };
     if ((sauceObject.name.length >= 3) && (regex.test(sauceObject.name) === true) && (regex.test(sauceObject.manufacturer) === true) && (regex.test(sauceObject.description) === true) && (regex.test(sauceObject.mainPepper) === true) && (regexNumber.test(sauceObject.heat) === true))  {
+      let filename = "";
+      Sauce.findOne({ _id: req.params.id })
+      .then((sauce) => {
+        filename = sauce.imageUrl.split("/images/")[1];
+      })
       Sauce.updateOne( { _id: req.params.id },{ ...sauceObject, _id: req.params.id } )
+      .then(() => fs.unlink(`images/${filename}`, () => {
+      })) 
       .then(() => res.status(200).json({ message: "Objet modifié !" }))
       .catch((error) => res.status(400).json({ error }));
     } else {
